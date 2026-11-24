@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#190f20">
+<title>မေငြိမ်းအောင်အတွက် 💔</title>
+<style>
+  :root { color-scheme: dark; --pink:#ff7aa8; --soft:#f7dce7; --bg:#190f20; }
+  * { box-sizing: border-box; }
+  body {
+    margin:0; min-height:100vh; color:#fff2f7;
+    font-family: system-ui, "Noto Sans Myanmar", sans-serif;
+    background: radial-gradient(ellipse at top, #51223d 0%, #241328 45%, #100b16 100%);
+  }
+  .wrap { width:min(100%, 560px); margin:auto; padding:24px 16px 36px; }
+  header { text-align:center; padding:18px 8px 22px; }
+  .heart { font-size:48px; animation:pulse 1.8s infinite; }
+  h1 { margin:8px 0; color:#ffb3cc; font-size:clamp(24px, 6vw, 34px); }
+  .sub { color:#e8c4d4; line-height:1.8; font-size:14px; }
+  .card {
+    background:rgba(255,255,255,.075); border:1px solid rgba(255,164,198,.22);
+    border-radius:22px; padding:22px 18px; box-shadow:0 12px 35px #0003;
+    backdrop-filter:blur(8px);
+  }
+  .label { color:#ff9fbe; font-size:13px; margin-bottom:12px; }
+  #quote { font-size:20px; line-height:1.95; min-height:145px; display:flex; align-items:center; justify-content:center; text-align:center; white-space:pre-line; }
+  .by { text-align:right; color:#dcb4c7; font-size:13px; margin-top:12px; }
+  .buttons { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:18px; }
+  button {
+    border:0; border-radius:14px; padding:13px 10px; font-size:15px;
+    font-family:inherit; cursor:pointer; color:#27111d; background:#ff9fbe;
+    font-weight:700;
+  }
+  button.secondary { background:#ffffff12; color:#ffe7ef; border:1px solid #ffffff25; }
+  button:active { transform:scale(.98); }
+  .section-title { color:#ffb3cc; font-size:18px; margin:24px 4px 12px; }
+  .note { line-height:1.9; font-size:15px; color:#f2dce5; }
+  .list { display:grid; gap:10px; }
+  .item { background:#ffffff0b; border:1px solid #ffffff14; border-radius:15px; padding:14px; line-height:1.8; }
+  .item button { margin-top:9px; padding:8px 12px; font-size:13px; }
+  textarea {
+    width:100%; min-height:105px; resize:vertical; border-radius:14px;
+    border:1px solid #ffffff2b; background:#160d1b; color:#fff2f7;
+    padding:12px; font:inherit; line-height:1.8;
+  }
+  footer { text-align:center; color:#b99bad; font-size:12px; margin-top:24px; line-height:1.8; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <div class="heart">💔</div>
+    <h1>မေငြိမ်းအောင်အတွက်</h1>
+    <div class="sub">မပြောဖြစ်ခဲ့တဲ့စကားတွေ၊ မေ့မရသေးတဲ့အမှတ်တရတွေကို<br>စာသားလေးတွေအဖြစ် သိမ်းထားတဲ့နေရာ…</div>
+  </header>
+
+  <section class="card">
+    <div class="label">ဒီနေ့ရဲ့ အသဲကွဲစာသား</div>
+    <div id="quote">တချို့လူတွေကို မေ့ဖို့ကြိုးစားလေလေ၊
+အမှတ်တရတွေက ပိုပြီးရှင်းလင်းလာလေလေပါပဲ။</div>
+    <div class="by">— မပြောဖြစ်ခဲ့တဲ့စကားများ</div>
+    <div class="buttons">
+      <button onclick="nextQuote()">နောက်တစ်ကြောင်း 💌</button>
+      <button class="secondary" onclick="copyQuote()">စာသားကူးယူမယ်</button>
+    </div>
+  </section>
+
+  <h2 class="section-title">💭 အသဲကွဲစာသားများ</h2>
+  <div class="list" id="quoteList"></div>
+
+  <h2 class="section-title">📝 မပြောဖြစ်ခဲ့တဲ့စာ</h2>
+  <section class="card">
+    <p class="note">မေငြိမ်းအောင်ဆီ ပြောချင်ပေမယ့် မပြောဖြစ်ခဲ့တဲ့စကားတွေကို ဒီနေရာမှာ ရေးထားလို့ရတယ်။</p>
+    <textarea id="myNote" placeholder="ဒီမှာ ကိုယ့်ရင်ထဲကစကားတွေ ရေးပါ…"></textarea>
+    <div class="buttons">
+      <button onclick="saveNote()">ဒီဖုန်းမှာသိမ်းမယ်</button>
+      <button class="secondary" onclick="shareNote()">မျှဝေမယ်</button>
+    </div>
+    <p id="saveStatus" class="sub" aria-live="polite"></p>
+  </section>
+
+  <footer>မေ့ပစ်ဖို့ မလွယ်တဲ့နေ့တွေရှိတတ်တယ်။<br>ဒါပေမယ့် ကိုယ့်ကိုယ်ကိုလည်း ဂရုစိုက်ဖို့ မမေ့ပါနဲ့။ 🖤</footer>
+</main>
+<script>
+const quotes = [
+  "မင်းကို မေ့သွားပြီလို့ ပြောနိုင်ပေမယ့်၊ မင်းနဲ့ဆိုင်တဲ့သီချင်းတွေကြားရင်တော့ နှလုံးသားက မယုံဘူး။",
+  "အနီးဆုံးလူတစ်ယောက်က အဝေးဆုံးဖြစ်သွားတဲ့အခါ တိတ်ဆိတ်မှုက အနာကျင်ဆုံးစကား ဖြစ်လာတယ်။",
+  "မင်းပျော်နေရင် ကောင်းပါတယ်။ ငါ့ရင်ထဲမှာတော့ မင်းမရှိတော့တဲ့နေရာကို အခုထိ ဖြည့်မရသေးဘူး။",
+  "တစ်ခါတလေ ပြန်လာစေချင်တာထက်၊ အရင်လို မနာကျင်တော့တဲ့နေ့ကိုပဲ စောင့်နေမိတယ်။",
+  "အမှတ်တရတွေက အတိတ်မှာကျန်ခဲ့ပေမယ့် ခံစားချက်တွေကတော့ ဒီနေ့အထိ လိုက်လာတုန်းပဲ။",
+  "မင်းကို မမုန်းပါဘူး။ မင်းကိုချစ်ခဲ့တဲ့ ကိုယ့်ကိုယ်ကို ပြန်ပြီးနားလည်ဖို့ပဲ အချိန်လိုနေတယ်။",
+  "တချို့နှုတ်ဆက်မှုတွေမှာ နောက်ဆုံးလို့ မပြောခဲ့ပေမယ့် အဲဒါက နောက်ဆုံးဖြစ်သွားတတ်တယ်။",
+  "မင်းနဲ့ပြောခဲ့တဲ့ စကားလေးတွေက မင်းအတွက် သာမန်ဖြစ်နိုင်ပေမယ့် ငါ့အတွက်တော့ အမှတ်တရတွေပါ။",
+  "မေ့ပစ်တာက တစ်နေ့တည်းနဲ့ မဖြစ်နိုင်ဘူး။ ဒါပေမယ့် နာကျင်မှုနဲ့အတူ ရှေ့ဆက်တတ်လာနိုင်တယ်။",
+  "တစ်ယောက်ယောက်ကို လွမ်းနေတယ်ဆိုတာ သူ့ဆီပြန်သွားရမယ်လို့ မဆိုလိုပါဘူး။ တစ်ခါတလေ ကိုယ့်စိတ်ကိုပဲ နားထောင်ပေးရတာပါ။"
+];
+let current = 0;
+function showQuote(i) {
+  current = (i + quotes.length) % quotes.length;
+  document.getElementById('quote').textContent = quotes[current];
+}
+function nextQuote(){ showQuote(current + 1); }
+async function copyQuote(){
+  const text = quotes[current];
+  try { await navigator.clipboard.writeText(text); alert('စာသားကို ကူးယူပြီးပါပြီ 💗'); }
+  catch(e) { window.prompt('ဒီစာသားကို ဖိပြီး ကူးယူပါ', text); }
+}
+function renderList(){
+  document.getElementById('quoteList').innerHTML = quotes.map((q,i) =>
+    `<article class="item"><div>${q}</div><button class="secondary" onclick="selectQuote(${i})">ဒီစာသားကိုရွေးမယ်</button></article>`
+  ).join('');
+}
+function selectQuote(i){ showQuote(i); window.scrollTo({top:0, behavior:'smooth'}); }
+function saveNote(){
+  const val = document.getElementById('myNote').value;
+  try { localStorage.setItem('mayNyeinAungNote', val); document.getElementById('saveStatus').textContent='ဒီဖုန်းရဲ့ browser ထဲမှာ သိမ်းပြီးပါပြီ။'; }
+  catch(e) { document.getElementById('saveStatus').textContent='သိမ်းမရပါ။ စာသားကို ကူးယူပြီး Notes ထဲမှာ သိမ်းထားပါ။'; }
+}
+function shareNote(){
+  const val = document.getElementById('myNote').value.trim();
+  if(!val){ alert('အရင်ဆုံး စာသားလေး ရေးပါနော်။'); return; }
+  if(navigator.share){ navigator.share({title:'မေငြိမ်းအောင်အတွက် စာ', text:val}).catch(()=>{}); }
+  else { window.prompt('ဒီစာသားကို ကူးယူပြီး မျှဝေပါ', val); }
+}
+try { document.getElementById('myNote').value = localStorage.getItem('mayNyeinAungNote') || ''; } catch(e) {}
+renderList();
+</script>
+</body>
+</html>
